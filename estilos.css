@@ -425,3 +425,6 @@ em { font-style: italic; }
   .ens-cue::before { animation: none; }
   .aparece { opacity: 1; transform: none; transition: none; }
 }
+
+/* sin HUD, pasos ni cotas */
+.ens-hud, .ens-pasos, .ens-etiquetas { display: none !important; }
