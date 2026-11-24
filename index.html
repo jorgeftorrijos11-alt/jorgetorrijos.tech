@@ -2,171 +2,270 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jorge Torrijos — Software industrial y juegos</title>
-<meta name="description" content="Portafolio de Jorge Torrijos: software para plantas industriales, videojuegos y experimentos con 3D, realidad aumentada e IA local.">
-<meta property="og:title" content="Jorge Torrijos — Software industrial y juegos">
-<meta property="og:description" content="Software para plantas, videojuegos y experimentos con 3D e IA.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jorge Torrijos — Software para la planta. Juegos para el bolsillo.</title>
+<meta name="description" content="Jorge Torrijos diseña y programa software industrial, videojuegos y experimentos con 3D, realidad aumentada e IA. Hecho en México.">
+<meta property="og:title" content="Jorge Torrijos — Software para la planta. Juegos para el bolsillo.">
+<meta property="og:description" content="Software industrial, videojuegos y experimentos con 3D e IA. Hecho en México.">
 <meta property="og:image" content="https://jorgetorrijos.tech/img/asen-plano3d.jpg">
 <meta property="og:url" content="https://jorgetorrijos.tech">
-<meta name="theme-color" content="#f3efe6">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23161513'/><text x='16' y='22' font-family='Georgia,serif' font-size='17' text-anchor='middle' fill='%23f3efe6'>JT</text></svg>">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0a0a0b">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230a0a0b'/><text x='16' y='22' font-family='Georgia,serif' font-size='16' font-style='italic' text-anchor='middle' fill='%23ff5b1f'>jt</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="estilos.css">
+<script type="importmap">{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js", "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/" } }</script>
 </head>
 <body>
 
-<header class="top">
-  <a class="marca" href="#inicio">Jorge Torrijos</a>
-  <nav>
+<div class="grano" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="marca" href="#inicio" aria-label="Inicio">Jorge<em>Torrijos</em></a>
+  <nav aria-label="Secciones">
     <a href="#industria">Industria</a>
     <a href="#juegos">Juegos</a>
     <a href="#laboratorio">Laboratorio</a>
-    <a href="#contacto" class="nav-cta">Contacto</a>
   </nav>
+  <a class="nav-cta" href="#contacto"><span class="punto" aria-hidden="true"></span>Disponible</a>
 </header>
 
 <main id="inicio">
 
-  <section class="hero">
-    <p class="etiqueta">Desarrollador · México</p>
-    <h1>Hago software para <br>plantas industriales <br><em>y juegos para el celular.</em></h1>
-    <div class="hero-pie">
-      <p class="intro">Diseño, programo y pruebo cada pieza: desde el sistema que le dice a un técnico qué máquina reparar primero hasta el taquero que atiende clientes en una calle de pixel. Me gusta lo que se puede tocar, medir y usar el lunes.</p>
-      <dl class="cifras">
-        <div><dt>2,552</dt><dd>pruebas automáticas en el ecosistema Asen IT</dd></div>
-        <div><dt>3</dt><dd>motores de juego: Godot, Unity y Roblox</dd></div>
-        <div><dt>5</dt><dd>módulos industriales en un solo portal</dd></div>
-      </dl>
+  <!-- ENSAMBLE: la portada se arma con el scroll -->
+  <section class="ensamble" aria-label="Presentación">
+    <div class="ens-fijo">
+      <canvas id="ens-canvas" aria-hidden="true"></canvas>
+      <div class="ens-etiquetas" aria-hidden="true"></div>
+
+      <div class="ens-flash" aria-hidden="true"></div>
+
+      <div class="ens-hud" aria-hidden="true">
+        <div><span>Ensamble</span><b id="hud-pct">000%</b></div>
+        <div><span>Piezas</span><b id="hud-piezas">000/137</b></div>
+        <div><span>RPM</span><b id="hud-rpm">0000</b></div>
+        <div><span>Temp</span><b id="hud-temp">021 °C</b></div>
+      </div>
+
+      <div class="ens-texto">
+        <div class="ens-intro">
+          <p class="kicker">Desarrollador · Hecho en México</p>
+          <h1>Ingeniería de software, <br><em>pieza por pieza.</em></h1>
+          <p class="ens-lead">137 piezas, un solo sistema. Desliza y mira cómo se arma.</p>
+          <span class="ens-cue">Desliza para ensamblar</span>
+        </div>
+
+        <ol class="ens-pasos">
+          <li data-spec="7,000 puntos"><span>01</span><div><b>Nube de puntos</b><em>Escuchar y medir antes de construir</em></div></li>
+          <li data-spec="4 piezas · Ø 420 mm"><span>02</span><div><b>Cárter y bancada</b><em>Arquitectura y datos</em></div></li>
+          <li data-spec="9 × Ø 110 mm · 14 aletas"><span>03</span><div><b>Nueve cilindros</b><em>Módulos que trabajan en paralelo</em></div></li>
+          <li data-spec="9 × aluminio"><span>04</span><div><b>Culatas</b><em>Lógica de negocio</em></div></li>
+          <li data-spec="18 piezas"><span>05</span><div><b>Balancines</b><em>Reglas y permisos</em></div></li>
+          <li data-spec="18 varillas · 18 cables"><span>06</span><div><b>Varillas y encendido</b><em>Integraciones y PLC</em></div></li>
+          <li data-spec="19 tubos"><span>07</span><div><b>Escape y admisión</b><em>Datos que entran y salen</em></div></li>
+          <li data-spec="3 palas · Ø 960 mm"><span>08</span><div><b>Hélice</b><em>La interfaz que usa la gente</em></div></li>
+          <li data-spec="36 tuercas M8"><span>09</span><div><b>Tornillería</b><em>2,552 pruebas automáticas</em></div></li>
+          <li data-spec="2,400 RPM"><span>10</span><div><b>Encendido</b><em>En producción</em></div></li>
+        </ol>
+
+        <div class="ens-final">
+          <p class="kicker">Sistema en marcha · 137 piezas</p>
+          <h2>Software para la planta. <br><em>Juegos para el bolsillo.</em></h2>
+          <p>Diseño, programo y pruebo cada pieza: del sistema que le dice a un técnico qué máquina reparar primero al taquero que atiende clientes en una calle de pixeles.</p>
+          <div class="ens-acciones">
+            <a class="boton" href="#industria">Ver el trabajo <span aria-hidden="true">↓</span></a>
+            <span class="ens-arrastra">↔ Arrastra el motor para girarlo</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ens-barra" aria-hidden="true"><i></i></div>
     </div>
+  </section>
+
+  <!-- MARQUESINA -->
+  <div class="marquesina" aria-label="Tecnologías">
+    <div class="pista">
+      <span>Next.js</span><i>✦</i><span>TypeScript</span><i>✦</i><span>Three.js</span><i>✦</i><span>Godot</span><i>✦</i><span>Unity 6</span><i>✦</i><span>Roblox · Luau</span><i>✦</i><span>Flutter</span><i>✦</i><span>PostgreSQL</span><i>✦</i><span>PLC</span><i>✦</i><span>IA local</span><i>✦</i>
+      <span aria-hidden="true">Next.js</span><i>✦</i><span aria-hidden="true">TypeScript</span><i>✦</i><span aria-hidden="true">Three.js</span><i>✦</i><span aria-hidden="true">Godot</span><i>✦</i><span aria-hidden="true">Unity 6</span><i>✦</i><span aria-hidden="true">Roblox · Luau</span><i>✦</i><span aria-hidden="true">Flutter</span><i>✦</i><span aria-hidden="true">PostgreSQL</span><i>✦</i><span aria-hidden="true">PLC</span><i>✦</i><span aria-hidden="true">IA local</span><i>✦</i>
+    </div>
+  </div>
+
+  <!-- CIFRAS -->
+  <section class="cifras" aria-label="En números">
+    <div class="cifra aparece"><b data-cuenta="2552">0</b><span>pruebas automáticas cuidando el ecosistema Asen IT</span></div>
+    <div class="cifra aparece"><b data-cuenta="5">0</b><span>módulos industriales en un solo portal</span></div>
+    <div class="cifra aparece"><b data-cuenta="3">0</b><span>motores de juego: Godot, Unity y Roblox</span></div>
+    <div class="cifra aparece"><b data-cuenta="10" data-sufijo="k">0</b><span>líneas propias de Luau en un solo juego</span></div>
   </section>
 
   <!-- INDUSTRIA -->
-  <section id="industria" class="bloque">
-    <header class="bloque-cab">
-      <span class="num">01</span>
-      <h2>Industria</h2>
-      <p>Software propio para la operación diaria de una planta.</p>
+  <section id="industria" class="seccion industria">
+    <header class="cabecera aparece">
+      <span class="num">01 — Industria</span>
+      <h2>Una planta entera,<br><em>en una sola pantalla.</em></h2>
+      <p>Asen IT es un ecosistema web propio para la operación diaria de una planta: mantenimiento, moldes, almacén y personas, con un solo inicio de sesión.</p>
     </header>
 
-    <article class="destacado">
-      <figure class="marco marco-app">
-        <img src="img/asen-plano3d.jpg" alt="Plano 3D de una planta con cada equipo etiquetado y su estado" loading="lazy" width="1600" height="853">
-      </figure>
-      <div class="destacado-texto">
-        <p class="etiqueta">Asen IT · ecosistema web</p>
-        <h3>Una planta entera, en una sola pantalla.</h3>
-        <p>Asen IT reúne mantenimiento, moldes, almacén y personal en un portal con un solo inicio de sesión. El módulo de mantenimiento ubica cada equipo en un plano 3D, prioriza órdenes de trabajo, lee señales de PLC y propone acciones con un asistente de IA.</p>
-        <ul class="chips">
-          <li>Next.js</li><li>TypeScript</li><li>PostgreSQL</li><li>Three.js</li><li>PLC</li><li>IA</li>
-        </ul>
+    <div class="relato">
+      <div class="relato-pasos">
+        <article class="paso" data-paso="0">
+          <span class="paso-num">A</span>
+          <h3>Plano 3D de la planta</h3>
+          <p>Cada equipo en su lugar real, con su estado en vivo. Encuentras la máquina, ves su historial y abres una orden sin salir del plano.</p>
+          <img class="paso-img" src="img/asen-plano3d.jpg" alt="" loading="lazy" width="1600" height="853">
+        </article>
+        <article class="paso" data-paso="1">
+          <span class="paso-num">B</span>
+          <h3>Centro de control</h3>
+          <p>Disponibilidad, preventivo y equipos críticos de un vistazo. Las alarmas de PLC se convierten en órdenes propuestas, y un asistente de IA ayuda a priorizar.</p>
+          <img class="paso-img" src="img/asen-centro.jpg" alt="" loading="lazy" width="1600" height="853">
+        </article>
+        <article class="paso" data-paso="2">
+          <span class="paso-num">C</span>
+          <h3>Almacén, moldes y personas</h3>
+          <p>Inventario con kiosko de piso, catálogo de moldes y matriz de habilidades del personal. Todo habla con todo.</p>
+          <img class="paso-img" src="img/asen-almacen.jpg" alt="" loading="lazy" width="1600" height="853">
+        </article>
+        <article class="paso" data-paso="3">
+          <span class="paso-num">D</span>
+          <h3>Un portal, una sesión</h3>
+          <p>Cada persona ve solo lo que le toca. Pensado para licenciarse a varias plantas.</p>
+          <img class="paso-img" src="img/asen-portal.jpg" alt="" loading="lazy" width="1600" height="853">
+        </article>
       </div>
-    </article>
-
-    <div class="rejilla-2">
-      <figure class="tarjeta">
-        <div class="marco marco-app"><img src="img/asen-centro.jpg" alt="Centro de control de mantenimiento con disponibilidad y equipos críticos" loading="lazy" width="1600" height="853"></div>
-        <figcaption><strong>Centro de control.</strong> Disponibilidad, preventivo y equipos críticos de un vistazo. <span class="nota">Datos de prueba.</span></figcaption>
-      </figure>
-      <figure class="tarjeta">
-        <div class="marco marco-app"><img src="img/asen-portal.jpg" alt="Portal de Asen IT con acceso a cada módulo" loading="lazy" width="1600" height="853"></div>
-        <figcaption><strong>Portal.</strong> Un acceso para moldes, mantenimiento, almacén y personas. <span class="nota">Datos de prueba.</span></figcaption>
-      </figure>
+      <div class="relato-visor" aria-hidden="true">
+        <div class="visor">
+          <div class="visor-barra"><i></i><i></i><i></i><span>asen-it · mantenimiento</span></div>
+          <div class="visor-pantalla">
+            <img src="img/asen-plano3d.jpg" alt="" class="activa" width="1600" height="853">
+            <img src="img/asen-centro.jpg" alt="" loading="lazy" width="1600" height="853">
+            <img src="img/asen-almacen.jpg" alt="" loading="lazy" width="1600" height="853">
+            <img src="img/asen-portal.jpg" alt="" loading="lazy" width="1600" height="853">
+          </div>
+        </div>
+        <p class="visor-nota">Capturas con datos de prueba</p>
+      </div>
     </div>
   </section>
 
-  <!-- JUEGOS -->
-  <section id="juegos" class="bloque">
-    <header class="bloque-cab">
-      <span class="num">02</span>
-      <h2>Juegos</h2>
-      <p>Prototipos jugables, pensados primero para el celular.</p>
-    </header>
-
-    <div class="juegos">
-      <article class="juego juego-grande">
-        <div class="marco"><img src="img/taco-godot.jpg" alt="Taco Imperio: puesto de tacos en bicicleta cruzando una calle" loading="lazy" width="1600" height="900"></div>
-        <div class="juego-texto">
-          <p class="etiqueta">Godot · Android</p>
-          <h3>Taco Imperio</h3>
-          <p>Empiezas con un triciclo de tacos y terminas con un imperio. Barrio mexicano vivo con tráfico, peatones, mercado e interiores de casas.</p>
-        </div>
-      </article>
-      <article class="juego">
-        <div class="marco"><img src="img/taco-roblox.jpg" alt="Taco Imperio en Roblox: cocina con pedido especial" loading="lazy" width="1600" height="900"></div>
-        <div class="juego-texto">
-          <p class="etiqueta">Roblox · Luau</p>
-          <h3>Taco Imperio para Roblox</h3>
-          <p>La misma idea llevada a Roblox: cocina, pedidos especiales y mejoras por etapas. Unas diez mil líneas de código propio.</p>
-        </div>
-      </article>
-      <article class="juego">
-        <div class="marco"><img src="img/turbo.jpg" alt="TurboReparto: camioneta derrapando en una avenida al atardecer" loading="lazy" width="1600" height="900"></div>
-        <div class="juego-texto">
-          <p class="etiqueta">Unity 6 · URP</p>
-          <h3>TurboReparto 3D</h3>
-          <p>Repartos a contrarreloj en un Kei Truck. Derrape con modelo de llanta, caja manual y una ciudad con semáforos que sí funcionan.</p>
-        </div>
-      </article>
+  <!-- JUEGOS: galería horizontal -->
+  <section id="juegos" class="juegos" aria-label="Juegos">
+    <div class="juegos-fijo">
+      <header class="juegos-cab">
+        <span class="num">02 — Juegos</span>
+        <h2>Prototipos que <em>se juegan</em>,<br>pensados para el celular.</h2>
+      </header>
+      <div class="carril">
+        <article class="carta" style="--tono:#ff5b1f">
+          <div class="carta-img"><img src="img/taco-godot.jpg" alt="Taco Imperio: triciclo de tacos cruzando una calle con tráfico" loading="lazy" width="1600" height="900"></div>
+          <div class="carta-texto">
+            <p class="etiqueta">Godot · Android</p>
+            <h3>Taco Imperio</h3>
+            <p>Empiezas con un triciclo de tacos y terminas con un imperio. Barrio mexicano vivo: tráfico, peatones, mercado, parque e interiores de casas.</p>
+          </div>
+        </article>
+        <article class="carta" style="--tono:#ffb020">
+          <div class="carta-img"><img src="img/taco-roblox.jpg" alt="Taco Imperio en Roblox: cocina con pedido especial" loading="lazy" width="1600" height="900"></div>
+          <div class="carta-texto">
+            <p class="etiqueta">Roblox · Luau</p>
+            <h3>Taco Imperio para Roblox</h3>
+            <p>La misma idea en Roblox: cocina, pedidos especiales, mejoras por etapas y modo foto. Unas diez mil líneas de código propio.</p>
+          </div>
+        </article>
+        <article class="carta" style="--tono:#7aa7ff">
+          <div class="carta-img"><img src="img/turbo.jpg" alt="TurboReparto: camioneta derrapando en una avenida al atardecer" loading="lazy" width="1600" height="900"></div>
+          <div class="carta-texto">
+            <p class="etiqueta">Unity 6 · URP</p>
+            <h3>TurboReparto 3D</h3>
+            <p>Repartos a contrarreloj en un Kei Truck. Derrape con modelo de llanta, caja manual y una ciudad al atardecer con semáforos que sí funcionan.</p>
+          </div>
+        </article>
+        <article class="carta carta-detalle" style="--tono:#7aa7ff">
+          <div class="carta-img"><img src="img/turbo-cabina.jpg" alt="Vista desde la cabina del Kei Truck con tablero y retrovisores" loading="lazy" width="1280" height="720"></div>
+          <div class="carta-texto">
+            <p class="etiqueta">Detalle</p>
+            <h3>Desde la cabina</h3>
+            <p>Tablero digital, retrovisores reales y cámara de persecución. Lo pequeño es lo que hace que se sienta bien.</p>
+          </div>
+        </article>
+        <article class="carta carta-final">
+          <p class="etiqueta">¿Y el tuyo?</p>
+          <h3>Tengo ganas de<br><em>hacer el siguiente.</em></h3>
+          <a class="boton boton-claro" href="#contacto">Platiquemos <span aria-hidden="true">→</span></a>
+        </article>
+      </div>
+      <div class="juegos-progreso" aria-hidden="true"><i></i></div>
     </div>
   </section>
 
   <!-- LABORATORIO -->
-  <section id="laboratorio" class="bloque">
-    <header class="bloque-cab">
-      <span class="num">03</span>
-      <h2>Laboratorio</h2>
-      <p>Experimentos que a veces terminan en producto.</p>
+  <section id="laboratorio" class="seccion laboratorio">
+    <header class="cabecera aparece">
+      <span class="num">03 — Laboratorio</span>
+      <h2>Experimentos que a veces<br><em>terminan en producto.</em></h2>
     </header>
-
     <div class="lab">
-      <figure class="lab-img marco marco-app">
-        <img src="img/lab-ar.jpg" alt="Guía en realidad aumentada para desarmar un motor paso a paso" loading="lazy" width="1600" height="853">
-      </figure>
-      <ol class="lab-lista">
-        <li>
+      <article class="lab-carta lab-grande aparece">
+        <img src="img/lab-ar.jpg" alt="Guía en realidad aumentada para desarmar un motor" loading="lazy" width="1600" height="853">
+        <div class="lab-texto">
           <h3>Guías en realidad aumentada</h3>
           <p>Instrucciones de mantenimiento paso a paso sobre un modelo 3D del equipo real.</p>
-        </li>
-        <li>
-          <h3>De foto a pieza impresa</h3>
-          <p>Fotogrametría e IA corriendo en la propia Mac para convertir fotos en una malla lista para la impresora 3D.</p>
-        </li>
-        <li>
-          <h3>Apps a la medida</h3>
-          <p>Por ejemplo, una app para una planeadora de bodas: invitados, mesas y recepción el día del evento, aun sin señal.</p>
-        </li>
-        <li>
-          <h3>Física en el navegador</h3>
-          <p>Prototipos 2D con motores propios para probar una mecánica en una tarde.</p>
-        </li>
-      </ol>
+        </div>
+      </article>
+      <article class="lab-carta aparece">
+        <span class="lab-icono" aria-hidden="true">◐</span>
+        <h3>De foto a pieza impresa</h3>
+        <p>Fotogrametría e IA corriendo en la propia Mac para convertir fotos en una malla lista para la impresora 3D.</p>
+      </article>
+      <article class="lab-carta aparece">
+        <span class="lab-icono" aria-hidden="true">◇</span>
+        <h3>Apps a la medida</h3>
+        <p>Como una app para una planeadora de bodas: invitados, mesas y recepción el día del evento, aun sin señal.</p>
+      </article>
+      <article class="lab-carta aparece">
+        <span class="lab-icono" aria-hidden="true">◎</span>
+        <h3>Física en el navegador</h3>
+        <p>Prototipos 2D con motores propios para probar una mecánica en una tarde.</p>
+      </article>
     </div>
   </section>
 
-  <!-- CÓMO TRABAJO -->
-  <section class="bloque forma">
-    <header class="bloque-cab">
-      <span class="num">04</span>
-      <h2>Cómo trabajo</h2>
+  <!-- FORMA DE TRABAJAR -->
+  <section class="seccion forma">
+    <header class="cabecera aparece">
+      <span class="num">04 — Cómo trabajo</span>
     </header>
-    <div class="principios">
-      <div><h3>Se ve en pantalla o no está hecho.</h3><p>Cada cambio se prueba en escritorio, tableta y celular antes de darlo por terminado.</p></div>
-      <div><h3>Pruebas antes que promesas.</h3><p>Lo importante queda cubierto por pruebas automáticas que corren en cada versión.</p></div>
-      <div><h3>Herramientas de hoy.</h3><p>Trabajo con agentes de IA como parte del equipo, con reglas claras y revisión humana.</p></div>
-    </div>
+    <ol class="principios">
+      <li class="aparece"><span>01</span><h3>Se ve en pantalla o no está hecho.</h3><p>Cada cambio se prueba en escritorio, tableta y celular antes de darlo por terminado.</p></li>
+      <li class="aparece"><span>02</span><h3>Pruebas antes que promesas.</h3><p>Lo importante queda cubierto por pruebas automáticas que corren en cada versión.</p></li>
+      <li class="aparece"><span>03</span><h3>Herramientas de hoy.</h3><p>Trabajo con agentes de IA como parte del equipo, con reglas claras y revisión humana.</p></li>
+    </ol>
   </section>
 
 </main>
 
+<!-- CONTACTO -->
 <footer id="contacto" class="contacto">
-  <p class="etiqueta">Contacto</p>
-  <h2>¿Tienes una planta, un juego <br>o una idea rara? Platiquemos.</h2>
-  <a class="correo" href="mailto:hola@jorgetorrijos.tech">hola@jorgetorrijos.tech <span aria-hidden="true">→</span></a>
-  <p class="pie">© 2026 Jorge Torrijos · Hecho a mano en México</p>
+  <div class="contacto-brillo" aria-hidden="true"></div>
+  <div class="contacto-in">
+  <p class="num aparece">05 — Contacto</p>
+  <h2 class="contacto-titulo aparece">¿Tienes una planta, <br>un juego o una <br><em>idea rara?</em></h2>
+  <a class="iman aparece" href="mailto:hola@jorgetorrijos.tech">
+    <span class="iman-texto">Escríbeme</span>
+    <span class="iman-correo">hola@jorgetorrijos.tech</span>
+  </a>
+  <div class="pie">
+    <span>© 2026 Jorge Torrijos</span>
+    <span>Hecho a mano en México</span>
+    <a href="#inicio">Volver arriba ↑</a>
+  </div>
+  </div>
 </footer>
 
+<script type="module" src="ensamble.js"></script>
+<script src="app.js" defer></script>
 </body>
 </html>
